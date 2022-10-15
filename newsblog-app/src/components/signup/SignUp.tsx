@@ -1,37 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { MIN_PWD_LENGTH } from "../../constants";
 import { useInput } from "../../hooks";
-import { signup } from "../../redux/action_creators";
+import { signup, userAuthorize } from "../../redux/action_creators";
 import { StoreState } from "../../redux/storeTypes";
 import './SignUp.scss';
 
 const SignUp = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        localStorage.clear();
+        dispatch(userAuthorize(null));
+    }, []);
+
     const username = useInput('username', '', {'isEmpty': true});
     const email = useInput('email', '', {'isEmpty': true, 'isEmail': true});
     const password = useInput('password', '', {'isEmpty': true, 'minLengthErr': MIN_PWD_LENGTH});
     const confirmPassword = useInput('confirmPassword', '', {'isEmpty': true, 'confirmPwd': password.value});
 
-    const dispatch = useDispatch();
     const onSignUp = () => {
-        dispatch(signup({
-            username: username.value,
-            email: email.value,
-            password: password.value,
-        }));
+        if (confirmPassword.value === password.value) {
+            dispatch(signup({
+                username: username.value,
+                email: email.value,
+                password: password.value,
+            }));
+        }
     };
 
-    const signUpErrors = useSelector((state: StoreState) => state.signUpErrors.signUpErrors);
+    const signUpErrors = useSelector((state: StoreState) => state.errors.signUpErrors);
+    const createTokenUserErrors = useSelector((state: StoreState) => state.errors.createTokenUserErrors)
+    const userErrors: string[] = [];
+
+    if (signUpErrors !== undefined && createTokenUserErrors !== undefined) {
+        signUpErrors.concat(createTokenUserErrors).map(err => userErrors.push(err));
+    }
 
     return (
         <div className="sign-up-container">
             <h2 className="sign-up-container-title">Sign Up</h2>
             <div>
                 { 
-                    signUpErrors !== undefined && 
-                    signUpErrors.length > 0 && 
-                    signUpErrors.map((err, index) => <span key={index} style={{color: 'red'}}>{err}</span>)
+                    userErrors.length > 0 && 
+                    userErrors.map((err, index) => <div key={index} style={{color: 'red'}}>{err}</div>)
                 }            
             </div>
             <div className="sign-up-block">
@@ -64,14 +77,16 @@ const SignUp = () => {
                     </label>
                 </div>   
                 <button className="sign-up-block-btn-sign-up" 
-                        disabled={!!username.valid || !!email.valid || !!password.valid || !!confirmPassword.valid}
+                        disabled={
+                            !!username.valid || !!email.valid || !!password.valid || !!confirmPassword.valid
+                            || password.value === confirmPassword.value
+                        }
                         onClick={onSignUp}>
                     Sign Up
                 </button>
                 <div>
                     <span>Already have an account?<Link to="/signin">Sing In</Link></span>
-                </div>
-                
+                </div>              
             </div>
         </div>
     );

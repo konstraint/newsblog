@@ -11,7 +11,7 @@ export default (state: UserState = initialState, action: any) => {
             return ({
                 ...state,
                 user: action.user
-            })
+            });
         }
         default: {
             return state;
