@@ -3,7 +3,7 @@ import { ArticleInfo, SearchArticlesInfo } from "../../types/articleTypes";
 import { 
     LOAD_ARTICLES, 
     SET_ARTICLES, SET_ARTICLE_LIMIT, SET_ARTICLE_SORT, SET_ARTICLE_START, 
-    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS 
+    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_TOTAL_COUNT 
 } from "../action_types";
 
 const loadArticles = (searchInfo: SearchArticlesInfo) => ({
@@ -41,14 +41,30 @@ const setSort = (sort: string) => ({
     sort,
 });
 
+const setCurrentPage = (currentPage: number) => ({
+    type: SET_ARTICLE_CURRENT_PAGE,
+    currentPage,
+});
+
+const setTotalCount = (totalCount: number) => ({
+    type: SET_ARTICLE_TOTAL_COUNT,
+    totalCount,
+});
+
 function* fetchArticles(action: any) {
     const { searchInfo } = action;
     console.log('searchInfo =', searchInfo);
     const url = new URL('https://api.spaceflightnewsapi.net/v3/articles/');
+    const urlCount = new URL('https://api.spaceflightnewsapi.net/v3/articles/count');
     for (let key in searchInfo) {        
         url.searchParams.append(key, searchInfo[key]);
+        urlCount.searchParams.append(key, searchInfo[key]);
     }
-    console.log(url);
+
+    const dataCount: Response = yield fetch(urlCount);
+    const responseCount: number = yield dataCount.json();
+    yield put(setTotalCount(responseCount));
+
     const data: Response = yield fetch(url);
     const response: ArticleInfo[] = yield data.json();
     yield put(setArticles(response));
@@ -58,4 +74,4 @@ function* watcherArticles() {
     yield takeEvery(LOAD_ARTICLES, fetchArticles);
 };
 
-export { watcherArticles, loadArticles, setTitleContains, setTextContains };
+export { watcherArticles, loadArticles, setTitleContains, setTextContains, setCurrentPage, setStart };

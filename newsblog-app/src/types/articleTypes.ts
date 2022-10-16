@@ -32,6 +32,7 @@ type ArticlesState = {
     articles: ArticleInfo[],
     searchInfo: SearchArticlesInfo,
     totalCount: number,
+    currentPage: number,
 }
 
 type SearchArticlesInfo = {
@@ -42,4 +43,9 @@ type SearchArticlesInfo = {
     summary_contains: string,
 }
 
-export type { ArticleInfo, ArticlesState, SearchArticlesInfo, ArticleVisualInfo, ArticleVisual };
+type PaginationArticleInfo = {
+    totalCount: number,
+    currentPage: number,
+}
+
+export type { ArticleInfo, ArticlesState, SearchArticlesInfo, ArticleVisualInfo, ArticleVisual, PaginationArticleInfo };

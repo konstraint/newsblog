@@ -1,19 +1,21 @@
+import { COUNT_ARTICLES_PAGE } from "../../constants/articlesVars";
 import { ArticlesState } from "../../types/articleTypes"
 import { 
-    SET_ARTICLES, SET_ARTICLE_LIMIT, SET_ARTICLE_SORT, SET_ARTICLE_START, 
-    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS 
+    SET_ARTICLES, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_LIMIT, SET_ARTICLE_SORT, SET_ARTICLE_START, 
+    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_TOTAL_COUNT 
 } from "../action_types";
 
 const initialState = {
     articles: [],
     searchInfo: {
         _start: 0,
-        _limit: 9,
+        _limit: COUNT_ARTICLES_PAGE,
         _sort: 'publishedAt',
         title_contains: '',
         summary_contains: '',
     },
     totalCount: 0,
+    currentPage: 1,
 }
 
 export default (state: ArticlesState = initialState, action: any) => {
@@ -22,8 +24,17 @@ export default (state: ArticlesState = initialState, action: any) => {
             return ({
                 ...state,
                 articles: action.articles,
-                totalCount: action.articles.length,
             });
+        case SET_ARTICLE_TOTAL_COUNT: 
+            return ({
+                ...state,
+                totalCount: action.totalCount,
+            });    
+        case SET_ARTICLE_CURRENT_PAGE: 
+            return ({
+                ...state,
+                currentPage: action.currentPage,
+            });            
         case SET_ARTICLE_TITLE_CONTAINS: 
             return ({
                 ...state,

@@ -4,8 +4,9 @@ import { Accordion, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "./Articles.scss";
 import { StoreState } from "../../redux/storeTypes";
-import { loadArticles, setTextContains, setTitleContains } from "../../redux/action_creators";
+import { loadArticles, setStart, setTextContains, setTitleContains } from "../../redux/action_creators";
 import { Article } from "./Article";
+import { ArticlePagination } from "./ArticlePagination";
 
 const Articles = () => {
     const dispatch = useDispatch();
@@ -14,11 +15,13 @@ const Articles = () => {
 
     const handleSearchChange = (e: any, setSearch: Function) => {
         setSearch(e.target.value);
+        dispatch(setStart(0));
     }
 
     const debounceOnChange = debounce(handleSearchChange, 500);
 
     const { _start, _limit, _sort } = useSelector((state: StoreState) => state.articles.searchInfo);
+    const { totalCount, currentPage } = useSelector((state: StoreState) => state.articles);
 
     useEffect(() => {
         dispatch(setTitleContains(title_contains));
@@ -32,7 +35,7 @@ const Articles = () => {
                 summary_contains,
             })
         );
-    }, [title_contains, summary_contains])
+    }, [title_contains, summary_contains, _start])
    
     const articles = useSelector((state: StoreState) => state.articles.articles);
 
@@ -77,16 +80,19 @@ const Articles = () => {
             </Accordion>                
             {
                 articles.length > 0 ?
-                <Row xs={1} md={3} className="g-3">
-                {    
-                    articles.map(article => {
-                        const { id, imageUrl, title, summary, url, publishedAt } = article;
-                        return (
-                            <Article article={{ id, imageUrl, title, summary, url, publishedAt }} key={id} />
-                        )
-                    })                  
-                }
-                </Row>
+                <>
+                    <Row xs={1} md={3} className="g-3">
+                    {    
+                        articles.map(article => {
+                            const { id, imageUrl, title, summary, url, publishedAt } = article;
+                            return (
+                                <Article article={{ id, imageUrl, title, summary, url, publishedAt }} key={id} />
+                            )
+                        })                  
+                    }
+                    </Row>
+                    <ArticlePagination totalCount={totalCount} currentPage={currentPage} />                
+                </>
                 :
                 <h1>NO DATA FOUND</h1>
             } 
