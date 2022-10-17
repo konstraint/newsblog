@@ -1,9 +1,10 @@
 import { put, takeEvery } from "redux-saga/effects";
+import { SortMode } from "../../constants";
 import { ArticleInfo, SearchArticlesInfo } from "../../types/articleTypes";
 import { 
     LOAD_ARTICLES, 
     SET_ARTICLES, SET_ARTICLE_LIMIT, SET_ARTICLE_SORT, SET_ARTICLE_START, 
-    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_TOTAL_COUNT 
+    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_TOTAL_COUNT, SET_ARTICLE_SORT_MODE 
 } from "../action_types";
 
 const loadArticles = (searchInfo: SearchArticlesInfo) => ({
@@ -41,6 +42,11 @@ const setSort = (sort: string) => ({
     sort,
 });
 
+const setSortMode = (sortMode: SortMode) => ({
+    type: SET_ARTICLE_SORT_MODE,
+    sortMode,
+});
+
 const setCurrentPage = (currentPage: number) => ({
     type: SET_ARTICLE_CURRENT_PAGE,
     currentPage,
@@ -74,4 +80,4 @@ function* watcherArticles() {
     yield takeEvery(LOAD_ARTICLES, fetchArticles);
 };
 
-export { watcherArticles, loadArticles, setTitleContains, setTextContains, setCurrentPage, setStart };
+export { watcherArticles, loadArticles, setTitleContains, setTextContains, setCurrentPage, setStart, setSort, setSortMode };

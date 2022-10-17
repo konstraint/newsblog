@@ -1,2 +1,2 @@
 export const COUNT_ARTICLES_PAGE = 10;
-export const COUNT_PAGES_NUMS = 11;
+export const SORT_ARTICLES_RULES = ['id', 'publishedAt', 'title'];

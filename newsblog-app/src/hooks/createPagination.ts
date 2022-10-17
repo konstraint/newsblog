@@ -1,12 +1,10 @@
-import { COUNT_PAGES_NUMS } from "../constants/articlesVars";
+import { COUNT_PAGES_NUMS } from "../constants";
 
 export const createPagination = (totalCount: number, currentPage: number, countRecords: number) => {
     const countPages = Math.ceil(totalCount / countRecords);
     const middlePage = Math.floor(countPages / 2);
 
     const pagesNums: (number | string) [] = [1];
-    //console.log('totalCount =', totalCount, 'countPages =', countPages, 'middlePage = ', middlePage);
-    //return pagesNums;
     
     if (countPages <= COUNT_PAGES_NUMS) {
         for (let i = 2; i <= countPages; i++) {
@@ -20,7 +18,6 @@ export const createPagination = (totalCount: number, currentPage: number, countR
             pagesNums.push(i);       
         }
         pagesNums.push('...', middlePage, '...');
-        console.log(pagesNums)
         for (let i = 3; i >= 0; i--) {
             pagesNums.push(countPages - i); 
         }

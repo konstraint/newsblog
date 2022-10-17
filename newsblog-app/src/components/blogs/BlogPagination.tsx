@@ -2,10 +2,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { COUNT_ARTICLES_PAGE } from "../../constants/articlesVars";
 import { createPagination } from "../../hooks/createPagination";
-import { setCurrentPage, setStart } from "../../redux/action_creators";
-import { PaginationArticleInfo } from "../../types/articleTypes";
+import { setCurrentPage, setStart } from "../../redux/action_creators/blog_action_creators";
+import { PaginationBlogInfo } from "../../types/blogTypes";
 
-const ArticlePagination = (props: PaginationArticleInfo) => {
+const BlogPagination = (props: PaginationBlogInfo) => {
     const { currentPage, totalCount } = props;
     let pagesNums: (string | number) [] = [];
     if (currentPage && totalCount) {
@@ -27,15 +27,15 @@ const ArticlePagination = (props: PaginationArticleInfo) => {
         dispatch(setStart(newStart));
     }
     return (
-        <div className="articles-pagination">
+        <div className="blogs-pagination">
             {   
                 pagesNums.length > 1
                 ?
                 pagesNums.map((num, index) => (
                     <span
-                        id={`articles-page-${index + 1}`}
+                        id={`blogs-page-${index + 1}`}
                         key={index} 
-                        className={`articles-pagination-num${num === currentPage ? ' current-page' : ''}`}
+                        className={`blogs-pagination-num${num === currentPage ? ' current-page' : ''}`}
                         onClick={onPageClick}
                     >
                         {num}
@@ -48,4 +48,4 @@ const ArticlePagination = (props: PaginationArticleInfo) => {
     );
 };
 
-export { ArticlePagination };
+export { BlogPagination };
