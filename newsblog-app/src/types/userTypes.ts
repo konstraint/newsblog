@@ -1,5 +1,3 @@
-import { UserCallAddress } from "../constants";
-
 type User = {
     id?: number,
     username?: string,
@@ -21,8 +19,4 @@ type JwtResponse = {
     refresh: string,
 };
 
-type UserCall = {
-    call: UserCallAddress,
-}
-
-export type { User, UserState, UserActivate, JwtResponse, UserCall };
+export type { User, UserState, UserActivate, JwtResponse };

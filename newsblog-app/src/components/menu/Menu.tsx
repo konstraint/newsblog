@@ -8,7 +8,6 @@ import { toggleMenu } from "../../redux/action_creators/menu_action_creators";
 import { StoreState } from "../../redux/storeTypes";
 import { User } from "../user/User";
 import "./Menu.scss";
-import { UserCallAddress } from "../../constants";
 
 const Menu = () => {
     const dispatch = useDispatch();
@@ -25,7 +24,7 @@ const Menu = () => {
         <div className={`menu${menuState === MenuStateValues.OPEN ? ' open' : ''}`} onClick={handleMenuOut}>
             <div className="menu-blur" />
             <div className="menu-content" onClick={(e) => e.stopPropagation()}>
-                <User call={UserCallAddress.MENU} />
+                <User />
                 <nav className="menu-items">
                     <ul className="menu-list">
                         <li className="menu-item">

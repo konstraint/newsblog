@@ -49,28 +49,28 @@ const SignUp = () => {
             </div>
             <div className="sign-up-block">
                 <div className="sign-up-block-content">
-                    <label> 
+                    <label className="sign-up-block-input"> 
                         Username
                         <input onChange={(e) => username.onChange(e)}  name="username" className="sign-up-block-el" type="text" placeholder="Username" value={username.value}></input>
                         {username.valid && <div style={{color: 'red'}}>{username.valid}</div>}
                     </label>
                 </div>
                 <div className="sign-up-block-content">
-                    <label>
+                    <label className="sign-up-block-input">
                         Email
                         <input onChange={(e) => email.onChange(e)} name="email" className="sign-up-block-el" type="email" placeholder="Email" value={email.value}></input>
                         {email.valid && <div style={{color: 'red'}}>{email.valid}</div>}
                     </label>
                 </div>
                 <div className="sign-up-block-content">
-                    <label>
+                    <label className="sign-up-block-input">
                         Password
                         <input onChange={(e) => password.onChange(e)} name="password" className="sign-up-block-el" type="password" placeholder="Password" value={password.value}></input>
                         {password.valid && <div style={{color: 'red'}}>{password.valid}</div>}
                     </label>
                 </div>
                 <div className="sign-up-block-content">
-                    <label>
+                    <label className="sign-up-block-input">
                         Confirm Password
                         <input onChange={(e) => confirmPassword.onChange(e)} name="confirm-password" className="sign-up-block-el" type="password" placeholder="Confirm password" value={confirmPassword.value}></input>
                         {confirmPassword.valid && <div style={{color: 'red'}}>{confirmPassword.valid}</div>}

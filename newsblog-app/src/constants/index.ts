@@ -1,4 +1,4 @@
-export * from './ValidateUserErrors';
+export * from './userVars';
 export * from './articlesVars';
 export * from './blogsVars';
 export * from './menuVars';

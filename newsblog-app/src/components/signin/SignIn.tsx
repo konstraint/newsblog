@@ -41,14 +41,14 @@ const SignIn = () => {
             </div>
             <div className="sign-in-block">
                 <div className="sign-in-block-content">
-                    <label>
+                    <label className="sign-in-block-input">
                         Email
                         <input onChange={(e) => email.onChange(e)} name="email" className="sign-in-block-el" type="email" placeholder="Email" value={email.value}></input>
                         {email.valid && <div style={{color: 'red'}}>{email.valid}</div>}
                     </label>
                 </div>
                 <div className="sign-in-block-content">
-                    <label>
+                    <label className="sign-in-block-input">
                         Password
                         <input onChange={(e) => password.onChange(e)} name="password" className="sign-in-block-el" type="password" placeholder="Password" value={password.value}></input>
                         {password.valid && <div style={{color: 'red'}}>{password.valid}</div>}

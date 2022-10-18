@@ -4,14 +4,12 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StoreState } from "../../redux/storeTypes";
 import "./User.scss";
-import { UserCall } from "../../types/userTypes";
-import { UserCallAddress } from "../../constants";
 
-const User = (props: UserCall) => {
+const User = () => {
     const user = useSelector((state: StoreState) => state.user.user);
     if (!user) {
         return (
-            <div className={`username ${props.call}`}>
+            <div className="username">
                 <FontAwesomeIcon icon={faUser} size={'2x'} color={'#fff'} />
             </div>
         )
@@ -19,7 +17,7 @@ const User = (props: UserCall) => {
     const userName = user.username;
     if (!userName) {
         return (
-            <div className={`username ${props.call}`}>
+            <div className="username">
                 <FontAwesomeIcon icon={faUser} size={'2x'} color={'#fff'} />
             </div>
         )
@@ -28,7 +26,7 @@ const User = (props: UserCall) => {
     const lastNameLetter = userName.charAt(userName.indexOf(' ') + 1).toUpperCase();
     //console.log('AAA = ', firstNameLetter + lastNameLetter);
     return (
-        <div className={`username ${props.call}`}>
+        <div className="username">
             <div className="username-fio">
                 {firstNameLetter + lastNameLetter}
             </div>
@@ -41,9 +39,3 @@ const User = (props: UserCall) => {
 }
 
 export { User };
-
-interface IUser {
-    userName: string,
-}
-
-export type { IUser };
