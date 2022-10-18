@@ -2,7 +2,7 @@ import { COUNT_BLOGS_PAGE, SortMode, SORT_BLOGS_RULES } from "../../constants";
 import { BlogsState } from "../../types/blogTypes";
 import { 
     SET_BLOGS, SET_BLOG_LIMIT, SET_BLOG_SORT, SET_BLOG_START, 
-    SET_BLOG_TEXT_CONTAINS, SET_BLOG_TITLE_CONTAINS, SET_BLOG_CURRENT_PAGE, SET_BLOG_TOTAL_COUNT, SET_BLOG_SORT_MODE 
+    SET_BLOG_TEXT_CONTAINS, SET_BLOG_TITLE_CONTAINS, SET_BLOG_CURRENT_PAGE, SET_BLOG_TOTAL_COUNT, SET_BLOG_SORT_MODE, SET_SELECTED_BLOG 
 } from "../action_types";
 
 const initialState = {
@@ -17,6 +17,7 @@ const initialState = {
     totalCount: 0,
     currentPage: 1,
     sortMode: SortMode.ASC,
+    selectedBlog: Object(),
 }
 
 export default (state: BlogsState = initialState, action: any) => {
@@ -26,6 +27,11 @@ export default (state: BlogsState = initialState, action: any) => {
                 ...state,
                 blogs: state.sortMode === SortMode.ASC ? action.blogs : action.blogs.reverse(),
             });
+        case SET_SELECTED_BLOG:
+            return ({
+                ...state,
+                selectedBlog: action.selectedBlog,
+            }); 
         case SET_BLOG_TOTAL_COUNT: 
             return ({
                 ...state,

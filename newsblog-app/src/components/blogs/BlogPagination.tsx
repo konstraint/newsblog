@@ -15,7 +15,7 @@ const BlogPagination = (props: PaginationBlogInfo) => {
     const onPageClick = (e: any) => {
         let newCurrentPage = e.target.innerHTML;
         if (newCurrentPage === '...') {
-            const id = +e.target.id.substring(5);
+            const id = +e.target.id[e.target.id.length - 1];
             const pageFirst = +pagesNums[id-2].toString();
             const pageLast = +pagesNums[id].toString();
             newCurrentPage = Math.floor((pageFirst + pageLast) / 2);
@@ -27,24 +27,28 @@ const BlogPagination = (props: PaginationBlogInfo) => {
         dispatch(setStart(newStart));
     }
     return (
-        <div className="blogs-pagination">
+        <>
             {   
                 pagesNums.length > 1
                 ?
-                pagesNums.map((num, index) => (
-                    <span
-                        id={`blogs-page-${index + 1}`}
-                        key={index} 
-                        className={`blogs-pagination-num${num === currentPage ? ' current-page' : ''}`}
-                        onClick={onPageClick}
-                    >
-                        {num}
-                    </span>
-                ))
+                <div className="blogs-pagination">
+                    {
+                        pagesNums.map((num, index) => (
+                            <span
+                                id={`blogs-page-${index + 1}`}
+                                key={index} 
+                                className={`blogs-pagination-num${num === currentPage ? ' current-page' : ''}`}
+                                onClick={onPageClick}
+                            >
+                                {num}
+                            </span>
+                        ))
+                    }
+                </div>
                 :
                 <></>
             }
-        </div>
+        </>
     );
 };
 

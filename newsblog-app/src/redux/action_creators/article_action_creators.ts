@@ -4,12 +4,22 @@ import { ArticleInfo, SearchArticlesInfo } from "../../types/articleTypes";
 import { 
     LOAD_ARTICLES, 
     SET_ARTICLES, SET_ARTICLE_LIMIT, SET_ARTICLE_SORT, SET_ARTICLE_START, 
-    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_TOTAL_COUNT, SET_ARTICLE_SORT_MODE 
+    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_TOTAL_COUNT, SET_ARTICLE_SORT_MODE, SELECT_ARTICLE, SET_SELECTED_ARTICLE 
 } from "../action_types";
 
 const loadArticles = (searchInfo: SearchArticlesInfo) => ({
     type: LOAD_ARTICLES,
     searchInfo,
+});
+
+const selectArticle = (id: number) => ({
+    type: SELECT_ARTICLE,
+    id,
+});
+
+const setSelectedArticle = (selectedArticle: ArticleInfo) => ({
+    type: SET_SELECTED_ARTICLE,
+    selectedArticle,
 });
 
 const setArticles = (articles: ArticleInfo[]) => ({
@@ -59,7 +69,8 @@ const setTotalCount = (totalCount: number) => ({
 
 function* fetchArticles(action: any) {
     const { searchInfo } = action;
-    console.log('searchInfo =', searchInfo);
+    //console.log('searchInfo =', searchInfo);
+    
     const url = new URL('https://api.spaceflightnewsapi.net/v3/articles/');
     const urlCount = new URL('https://api.spaceflightnewsapi.net/v3/articles/count');
     for (let key in searchInfo) {        
@@ -76,8 +87,25 @@ function* fetchArticles(action: any) {
     yield put(setArticles(response));
 };
 
-function* watcherArticles() {
-    yield takeEvery(LOAD_ARTICLES, fetchArticles);
+function* fetchSelectArticle(action: any) {
+    const data: Response = yield fetch(`https://api.spaceflightnewsapi.net/v3/articles/${action.id}`);
+    const response: ArticleInfo = yield data.json();
+    yield put(setSelectedArticle(response));  
 };
 
-export { watcherArticles, loadArticles, setTitleContains, setTextContains, setCurrentPage, setStart, setSort, setSortMode };
+function* watcherArticles() {
+    yield takeEvery(LOAD_ARTICLES, fetchArticles);
+    yield takeEvery(SELECT_ARTICLE, fetchSelectArticle);
+};
+
+export { 
+    watcherArticles, 
+    loadArticles, 
+    setTitleContains, 
+    setTextContains, 
+    setCurrentPage, 
+    setStart, 
+    setSort, 
+    setSortMode, 
+    selectArticle,
+};

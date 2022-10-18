@@ -135,9 +135,9 @@ const Blogs = () => {
                     <Row xs={1} md={3} className="g-3">
                     {    
                         blogs.map(blog => {
-                            const { id, imageUrl, title, summary, url, publishedAt } = blog;
+                            const { id, imageUrl, title, summary, url, publishedAt, newsSite } = blog;
                             return (
-                                <Blog blog={{ id, imageUrl, title, summary, url, publishedAt }} key={id} />
+                                <Blog blog={{ id, imageUrl, title, summary, url, publishedAt, newsSite }} key={id} />
                             )
                         })                  
                     }

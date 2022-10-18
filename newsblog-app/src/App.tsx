@@ -10,6 +10,8 @@ import { getUser } from './redux/action_creators';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Menu } from './components/menu/Menu';
 import { Blogs } from './components/blogs/Blogs';
+import { SelectedArticle } from './components/arcticles/SelectedArticle';
+import { SelectedBlog } from './components/blogs/SelectedBlog';
 
 function App() {
   const dispatch = useDispatch();
@@ -45,10 +47,16 @@ function App() {
             <Route path='signin' element={<SignIn />} />
             <Route path='signup' element={<SignUp />} />
             <Route path='activate'>
-               <Route path='*' element={<Activation />}  />
+              <Route path='*' element={<Activation />}  />
             </Route>
-            <Route path='articles/' element={<Articles />} />
-            <Route path='blogs/' element={<Blogs />} />         
+            <Route path='articles'>
+              <Route index element = {<Articles />} />
+              <Route path=':id' element = {<SelectedArticle />} />
+            </Route>
+            <Route path='blogs'>
+              <Route index element = {<Blogs />} />
+              <Route path=':id' element = {<SelectedBlog />} />
+            </Route>       
           </Route>
         </Routes>
       </BrowserRouter>

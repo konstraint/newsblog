@@ -29,15 +29,15 @@ const Menu = () => {
                 <nav className="menu-items">
                     <ul className="menu-list">
                         <li className="menu-item">
-                            <a href='/' style={{paddingRight: '5px'}}>Home</a> 
+                            <a className="menu-item-link" href='/'>Home</a> 
                             <FontAwesomeIcon icon={faHouseUser} />
                         </li>
                         <li className="menu-item">
-                            <a style={{paddingRight: '5px'}} href='articles'>Articles</a> 
+                            <a className="menu-item-link" href='/articles'>Articles</a> 
                             <FontAwesomeIcon icon={faNewspaper} />
                         </li>
                         <li className="menu-item">
-                            <a href='blogs' style={{paddingRight: '5px'}}>Blogs</a> 
+                            <a className="menu-item-link" href='/blogs'>Blogs</a> 
                             <FontAwesomeIcon icon={faBlog} />
                         </li>
                     </ul>

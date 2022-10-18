@@ -4,12 +4,22 @@ import { BlogInfo, SearchBlogsInfo } from "../../types/blogTypes";
 import { 
     LOAD_BLOGS, 
     SET_BLOGS, SET_BLOG_LIMIT, SET_BLOG_SORT, SET_BLOG_START, 
-    SET_BLOG_TEXT_CONTAINS, SET_BLOG_TITLE_CONTAINS, SET_BLOG_CURRENT_PAGE, SET_BLOG_TOTAL_COUNT, SET_BLOG_SORT_MODE 
+    SET_BLOG_TEXT_CONTAINS, SET_BLOG_TITLE_CONTAINS, SET_BLOG_CURRENT_PAGE, SET_BLOG_TOTAL_COUNT, SET_BLOG_SORT_MODE, SELECT_BLOG, SET_SELECTED_BLOG 
 } from "../action_types";
 
 const loadBlogs = (searchInfo: SearchBlogsInfo) => ({
     type: LOAD_BLOGS,
     searchInfo,
+});
+
+const selectBlog = (id: number) => ({
+    type: SELECT_BLOG,
+    id,
+});
+
+const setSelectedBlog = (selectedBlog: BlogInfo) => ({
+    type: SET_SELECTED_BLOG,
+    selectedBlog,
 });
 
 const setBlogs = (blogs: BlogInfo[]) => ({
@@ -59,7 +69,7 @@ const setTotalCount = (totalCount: number) => ({
 
 function* fetchBlogs(action: any) {
     const { searchInfo } = action;
-    console.log('searchInfo =', searchInfo);
+    //console.log('searchInfo =', searchInfo);
     const url = new URL('https://api.spaceflightnewsapi.net/v3/blogs/');
     const urlCount = new URL('https://api.spaceflightnewsapi.net/v3/blogs/count');
     for (let key in searchInfo) {        
@@ -73,12 +83,28 @@ function* fetchBlogs(action: any) {
 
     const data: Response = yield fetch(url);
     const response: BlogInfo[] = yield data.json();
-    console.log(response);
     yield put(setBlogs(response));
+};
+
+function* fetchSelectBlog(action: any) {
+    const data: Response = yield fetch(`https://api.spaceflightnewsapi.net/v3/blogs/${action.id}`);
+    const response: BlogInfo = yield data.json();
+    yield put(setSelectedBlog(response));  
 };
 
 function* watcherBlogs() {
     yield takeEvery(LOAD_BLOGS, fetchBlogs);
+    yield takeEvery(SELECT_BLOG, fetchSelectBlog);
 };
 
-export { watcherBlogs, loadBlogs, setTitleContains, setTextContains, setCurrentPage, setStart, setSort, setSortMode };
+export { 
+    watcherBlogs,
+    loadBlogs,
+    setTitleContains,
+    setTextContains,
+    setCurrentPage,
+    setStart,
+    setSort,
+    setSortMode,
+    selectBlog
+};

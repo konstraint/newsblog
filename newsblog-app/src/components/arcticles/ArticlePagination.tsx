@@ -15,7 +15,7 @@ const ArticlePagination = (props: PaginationArticleInfo) => {
     const onPageClick = (e: any) => {
         let newCurrentPage = e.target.innerHTML;
         if (newCurrentPage === '...') {
-            const id = +e.target.id.substring(5);
+            const id = +e.target.id[e.target.id.length - 1];
             const pageFirst = +pagesNums[id-2].toString();
             const pageLast = +pagesNums[id].toString();
             newCurrentPage = Math.floor((pageFirst + pageLast) / 2);
@@ -26,25 +26,29 @@ const ArticlePagination = (props: PaginationArticleInfo) => {
         const newStart = (newCurrentPage - 1) * COUNT_ARTICLES_PAGE;
         dispatch(setStart(newStart));
     }
-    return (
-        <div className="articles-pagination">
+    return ( 
+        <>
             {   
                 pagesNums.length > 1
                 ?
-                pagesNums.map((num, index) => (
-                    <span
-                        id={`articles-page-${index + 1}`}
-                        key={index} 
-                        className={`articles-pagination-num${num === currentPage ? ' current-page' : ''}`}
-                        onClick={onPageClick}
-                    >
-                        {num}
-                    </span>
-                ))
+                <div className="articles-pagination">
+                    {
+                        pagesNums.map((num, index) => (
+                            <span
+                                id={`articles-page-${index + 1}`}
+                                key={index} 
+                                className={`articles-pagination-num${num === currentPage ? ' current-page' : ''}`}
+                                onClick={onPageClick}
+                            >
+                                {num}
+                            </span>
+                        ))
+                    }
+                </div>
                 :
                 <></>
             }
-        </div>
+        </>
     );
 };
 

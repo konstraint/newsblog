@@ -135,9 +135,9 @@ const Articles = () => {
                     <Row xs={1} md={3} className="g-3">
                     {    
                         articles.map(article => {
-                            const { id, imageUrl, title, summary, url, publishedAt } = article;
+                            const { id, imageUrl, title, summary, url, publishedAt, newsSite } = article;
                             return (
-                                <Article article={{ id, imageUrl, title, summary, url, publishedAt }} key={id} />
+                                <Article article={{ id, imageUrl, title, summary, url, publishedAt, newsSite }} key={id} />
                             )
                         })                  
                     }

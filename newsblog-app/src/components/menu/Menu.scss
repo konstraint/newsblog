@@ -17,12 +17,34 @@
     }
 
     &-items {
-        background-color: #34d1a4;
+        background-color: #f9f9f9;
         width: 14%;
+        border-radius: 5px;
     }
 
     &-item {
+        width: 100%;
         height: 50px;
+        text-align: center;
+        padding: 5px 0;
+        border-top: 1px solid #d0caca;
+
+        &-link {
+            color: #000;
+            padding-right: 5px;
+        }
+
+        &-link:hover {
+            color: #000;
+        }
+    }
+
+    &-item:hover {
+        background-color: #0a50bf;
+    }
+
+    &-item:last-of-type {
+        border-bottom: 1px solid #d0caca;
     }
 
     &-list {

@@ -1,0 +1,1 @@
+export const transformDate = (date: string) => (date ? date.replace('T', ' ').substring(0, date.indexOf('.')) : '');

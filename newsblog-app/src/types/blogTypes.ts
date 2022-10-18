@@ -19,6 +19,7 @@ type BlogVisualInfo = {
     id: number,
     title: string,
     url: string,
+    newsSite: string,
     imageUrl: string,
     summary: string,
     publishedAt: string, 
@@ -35,6 +36,7 @@ type BlogsState = {
     totalCount: number,
     currentPage: number,
     sortMode: SortMode,
+    selectedBlog: BlogInfo,
 }
 
 type SearchBlogsInfo = {
