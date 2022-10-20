@@ -30,6 +30,10 @@ type ArticleVisual = {
     key: number,
 }
 
+type ArticleSearch = {
+    idLaunch: string,
+}
+
 type ArticlesState = {
     articles: ArticleInfo[],
     searchInfo: SearchArticlesInfo,
@@ -37,6 +41,7 @@ type ArticlesState = {
     currentPage: number,
     sortMode: SortMode,
     selectedArticle: ArticleInfo,
+    idLaunch: string,
 }
 
 type SearchArticlesInfo = {
@@ -52,4 +57,4 @@ type PaginationArticleInfo = {
     currentPage: number,
 }
 
-export type { ArticleInfo, ArticlesState, SearchArticlesInfo, ArticleVisualInfo, ArticleVisual, PaginationArticleInfo };
+export type { ArticleInfo, ArticlesState, SearchArticlesInfo, ArticleVisualInfo, ArticleVisual, PaginationArticleInfo, ArticleSearch };

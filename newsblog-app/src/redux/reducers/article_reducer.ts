@@ -1,7 +1,7 @@
 import { COUNT_ARTICLES_PAGE, SortMode, SORT_ARTICLES_RULES } from "../../constants";
 import { ArticlesState } from "../../types/articleTypes"
 import { 
-    SET_ARTICLES, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_LIMIT, SET_ARTICLE_SORT, SET_ARTICLE_SORT_MODE, SET_ARTICLE_START, 
+    SET_ARTICLES, SET_ARTICLES_LAUNCH, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_LIMIT, SET_ARTICLE_SORT, SET_ARTICLE_SORT_MODE, SET_ARTICLE_START, 
     SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_TOTAL_COUNT, SET_SELECTED_ARTICLE 
 } from "../action_types";
 
@@ -18,6 +18,7 @@ const initialState = {
     currentPage: 1,
     sortMode: SortMode.ASC,
     selectedArticle: Object(),
+    idLaunch: '',
 }
 
 export default (state: ArticlesState = initialState, action: any) => {
@@ -31,7 +32,12 @@ export default (state: ArticlesState = initialState, action: any) => {
             return ({
                 ...state,
                 selectedArticle: action.selectedArticle,
-            });   
+            }); 
+        case SET_ARTICLES_LAUNCH:
+            return ({
+                ...state,
+                idLaunch: action.idLaunch,
+            });       
         case SET_ARTICLE_TOTAL_COUNT: 
             return ({
                 ...state,

@@ -37,6 +37,7 @@ const SignUp = () => {
     if (signUpErrors !== undefined && createTokenUserErrors !== undefined) {
         signUpErrors.concat(createTokenUserErrors).map(err => userErrors.push(err));
     }
+    //console.log(username.valid, email.valid, password.valid, confirmPassword.valid, password.value === confirmPassword.value);
 
     return (
         <div className="sign-up-container">
@@ -79,7 +80,7 @@ const SignUp = () => {
                 <button className="sign-up-block-btn-sign-up" 
                         disabled={
                             !!username.valid || !!email.valid || !!password.valid || !!confirmPassword.valid
-                            || password.value === confirmPassword.value
+                            //|| password.value === confirmPassword.value
                         }
                         onClick={onSignUp}>
                     Sign Up

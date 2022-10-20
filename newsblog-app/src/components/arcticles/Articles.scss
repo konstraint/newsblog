@@ -67,7 +67,7 @@
 
     &-selected {
         width: 50%;
-        margin: 0 auto;
+        margin: 0 auto 30px;
 
         &-img {
             display: block;
@@ -88,6 +88,19 @@
             line-height: 36px;
             text-align: justify;
             margin: 10px 0;
+        }
+    }
+
+    &-launches {
+        margin: 30px auto;
+
+        &-link {
+            padding-right: 10px;
+        }
+
+        &-link:hover {
+            text-decoration: underline;
+            cursor: pointer;
         }
     }
 }

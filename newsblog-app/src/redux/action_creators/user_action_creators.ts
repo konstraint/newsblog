@@ -90,6 +90,7 @@ function* getUserInfo() {
 function* fetchSignIn(action: any) {
     const { userInfo } = action; 
     yield createUserTokens(userInfo);
+    yield window.location.href = '/';
 }
 
 // при вызове крейтера signup делается запрос на получение ссылки для активации нового пользователя
@@ -142,11 +143,12 @@ function* activateUser(action: any) {
         console.log('ответ после запроса на активацию =', data);
         if (data.status < 300) {  // если все хорошо, пользователь активирован, получаем для него токены и кидаем на home
             const userInfo: User = yield JSON.parse(localStorage.getItem('userNew') + '');
+            console.log(userInfo);
             console.log('для запроса токенов после активации:', userInfo);
             yield createUserTokens({email: userInfo.email, password: userInfo.password});
-            yield window.location.href = '/';
             localStorage.removeItem('userNew');
             yield put(userAuthorize(userInfo));
+            yield window.location.href = '/';
         } else { //если ошибка в активации, то ошибку в стор, пользователя чистим и перекидываем на sign up
             throw data;
         }        
@@ -173,15 +175,15 @@ function* createUserTokens(userInfo: User) {
         if (data.status === 200) {
             const jwt: JwtResponse = yield data.json();
             const { access, refresh } = jwt;
-            localStorage.setItem('jwtAccess', access);
-            localStorage.setItem('jwtRefresh', refresh);
-            yield window.location.href = '/';
+            yield localStorage.setItem('jwtAccess', access);
+            yield localStorage.setItem('jwtRefresh', refresh);
+            //yield window.location.href = '/';
         }
         else {
             throw data;
         } 
     } catch(error: any) {
-        console.log('ошибка поллучения токенов:', error);
+        console.log('ошибка получения токенов:', error);
         yield put(createTokenUserError(['No authorized']));
         const { pathname } = yield window.location;
         if (pathname !== '/signin') {

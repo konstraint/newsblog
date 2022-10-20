@@ -4,13 +4,19 @@ import { ArticleInfo, SearchArticlesInfo } from "../../types/articleTypes";
 import { 
     LOAD_ARTICLES, 
     SET_ARTICLES, SET_ARTICLE_LIMIT, SET_ARTICLE_SORT, SET_ARTICLE_START, 
-    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_TOTAL_COUNT, SET_ARTICLE_SORT_MODE, SELECT_ARTICLE, SET_SELECTED_ARTICLE 
+    SET_ARTICLE_TEXT_CONTAINS, SET_ARTICLE_TITLE_CONTAINS, SET_ARTICLE_CURRENT_PAGE, SET_ARTICLE_TOTAL_COUNT, SET_ARTICLE_SORT_MODE, SELECT_ARTICLE, SET_SELECTED_ARTICLE, LOAD_ARTICLES_LAUNCH, SET_ARTICLES_LAUNCH 
 } from "../action_types";
 
 const loadArticles = (searchInfo: SearchArticlesInfo) => ({
     type: LOAD_ARTICLES,
     searchInfo,
 });
+
+const loadArticlesLaunch = (idLaunch: string, searchInfo: SearchArticlesInfo) => ({
+    type: LOAD_ARTICLES_LAUNCH,
+    idLaunch,
+    searchInfo,
+})
 
 const selectArticle = (id: number) => ({
     type: SELECT_ARTICLE,
@@ -67,6 +73,11 @@ const setTotalCount = (totalCount: number) => ({
     totalCount,
 });
 
+const setLaunch = (idLaunch: string) => ({
+    type: SET_ARTICLES_LAUNCH,
+    idLaunch,
+});
+
 function* fetchArticles(action: any) {
     const { searchInfo } = action;
     //console.log('searchInfo =', searchInfo);
@@ -93,14 +104,28 @@ function* fetchSelectArticle(action: any) {
     yield put(setSelectedArticle(response));  
 };
 
+function* fetchArticleLaunch(action: any) {
+    const { searchInfo, idLaunch } = action;
+    const url = new URL(`https://api.spaceflightnewsapi.net/v3/articles/launch/${idLaunch}`);
+    for (let key in searchInfo) {        
+        url.searchParams.append(key, searchInfo[key]);
+    }    
+    const data: Response = yield fetch(url);
+    const response: ArticleInfo[] = yield data.json();
+    yield put(setTotalCount(response.length));
+    yield put(setArticles(response));  
+};
+
 function* watcherArticles() {
     yield takeEvery(LOAD_ARTICLES, fetchArticles);
+    yield takeEvery(LOAD_ARTICLES_LAUNCH, fetchArticleLaunch);
     yield takeEvery(SELECT_ARTICLE, fetchSelectArticle);
 };
 
 export { 
     watcherArticles, 
-    loadArticles, 
+    loadArticles,
+    loadArticlesLaunch,
     setTitleContains, 
     setTextContains, 
     setCurrentPage, 
@@ -108,4 +133,5 @@ export {
     setSort, 
     setSortMode, 
     selectArticle,
+    setLaunch,
 };

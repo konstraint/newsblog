@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Spinner from 'react-bootstrap/Spinner';
 import { RotatingLines } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
 import { activation } from "../../redux/action_creators";

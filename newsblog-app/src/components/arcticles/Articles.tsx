@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "../../redux/storeTypes";
 import { 
     loadArticles, 
+    loadArticlesLaunch, 
     setCurrentPage, 
     setSortMode, 
     setStart, 
@@ -15,8 +16,10 @@ import { Article } from "./Article";
 import { ArticlePagination } from "./ArticlePagination";
 import { SortMode, SORT_ARTICLES_RULES } from "../../constants";
 import "./Articles.scss";
+import { ArticleSearch } from "../../types/articleTypes";
 
-const Articles = () => {
+const Articles = (props: ArticleSearch) => {
+    const { idLaunch } = props;
     const dispatch = useDispatch();
     const [title_contains, setSearchTitle] = useState('');
     const [summary_contains, setSearchContent] = useState('');
@@ -48,23 +51,36 @@ const Articles = () => {
         dispatch(setTitleContains(title_contains));
         dispatch(setTextContains(summary_contains));
         dispatch(setSortMode(sortMode));
-        dispatch(
-            loadArticles({
-                _start,
-                _limit,
-                _sort,
-                title_contains,
-                summary_contains,
-            })
-        );
+        if (idLaunch === '') {
+            dispatch(
+                loadArticles({
+                    _start,
+                    _limit,
+                    _sort,
+                    title_contains,
+                    summary_contains,
+                })
+            );
+        } else if (idLaunch.length > 0) {
+            console.log(idLaunch);
+            dispatch(
+                loadArticlesLaunch(idLaunch, {
+                    _start,
+                    _limit,
+                    _sort,
+                    title_contains,
+                    summary_contains,
+                })
+            );            
+        }
     }, [title_contains, summary_contains, _start, _sort, sortMode])
    
     const articles = useSelector((state: StoreState) => state.articles.articles);
-
+    const displayParamsStyle: string = idLaunch !== undefined && idLaunch ? 'none' : 'block';
     return (
         <div className="articles">
             <h2>Articles</h2>
-            <Accordion defaultActiveKey="0" style={{marginBottom: '30px'}}>
+            <Accordion defaultActiveKey="0" style={{marginBottom: '30px', display: `${displayParamsStyle}`}}>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Search params</Accordion.Header>
                     <Accordion.Body>
